@@ -14,15 +14,37 @@ button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus
 </style>
 </head>
 <body>
-<header class="mast"><div class="head-inner"><div class="logo" aria-hidden="true">YT</div><div><div class="brand">YOLCU TALK</div><div class="tagline">Sesin dünyaya ulaşsın.</div></div><span class="topbadge">MOBİL DEMO</span></div></header>
+<header class="mast"><div class="head-inner"><div class="logo" aria-hidden="true">YT</div><div><div class="brand">YOLCU TALK</div><div class="tagline">Sesin dünyaya ulaşsın.</div></div><span class="topbadge">ÜYELİK TESTİ</span></div></header>
 <main class="wrap">
 <div class="hero"><div class="eyebrow"><span class="dot"></span> SESLİ TOPLULUK · DÜNYA ÇAPINDA</div><h1>Konuş, dinle, topluluğa katıl.</h1><p>Güvenli sesli odalar ve adil topluluk kuralları. Üyelik yalnızca 18 yaş ve üzerindekilere açıktır.</p><div class="facts"><span class="fact">🔞 18+ üyelik</span><span class="fact">🎙️ Sesli odalar</span><span class="fact">🛡️ Yetkili yönetim</span><span class="fact">💬 Yazışma izne bağlı</span></div></div>
-<div class="msg"><strong>Bu bir arayüz prototipidir.</strong> Gerçek üye kaydı, kimlik doğrulama, mikrofon iletimi veya veri saklama yapılmaz. Buraya gerçek kişisel bilgilerini girme; örnek bilgilerle test et.</div>
+<div class="msg"><strong>Üyelik testi:</strong> Supabase bağlantısı kurulursa gerçek e-posta kaydı ve giriş yapılabilir. Hesaplar onaylanana kadar <strong>pending</strong> durumundadır. Ses aktarımı, gerçek yönetici işlemleri ve güvenilir yaş doğrulaması henüz aktif değildir.</div>
 <nav class="nav" aria-label="Uygulama bölümleri"><button class="active" type="button" data-tab="signup" aria-current="page">✍️ Üyelik</button><button type="button" data-tab="rooms">🎤 Odalar</button><button type="button" data-tab="admin">🛡️ Yönetim</button></nav>
 <section id="signup" class="view">
-<div class="panel"><div class="secthead"><div><h2>Üyelik Başvurusu</h2><p class="mini">Kuralları incele ve örnek başvuru oluştur.</p></div><span class="count">18+</span></div>
-<form id="joinForm" novalidate><div class="input-grid"><label class="field">Kullanıcı adı<input id="username" type="text" minlength="3" maxlength="30" placeholder="Örn. Yolcu123" autocomplete="off" required></label><label class="field">E-posta (örnek)<input id="email" type="email" placeholder="ornek@example.com" autocomplete="off" required></label></div><label class="field">Doğum tarihi<input id="birthdate" type="date" required><span class="hint">18 yaş sınırı burada örnek olarak kontrol edilir. Gerçek uygulamada ayrıca uygun yaş doğrulaması tasarlanmalıdır.</span></label>
-<div class="split" style="margin:20px 0 12px"><h3 style="margin:0">Üyelik ve Topluluk Yönetmeliği</h3><span class="count">16 madde</span></div><p class="mini">Aşağıdaki kurallar başvurunun parçasıdır. Başlıklara dokunarak maddeleri oku.</p><div class="legaltools"><button type="button" class="btn secondary inline" id="expandAll">Tümünü aç</button><button type="button" class="btn secondary inline" id="collapseAll">Tümünü kapat</button></div>
+<div class="panel" id="connectionPanel">
+<h2>Supabase bağlantısı</h2>
+<p class="mini">Yalnızca <strong>sb_publishable_</strong> ile başlayan açık anahtarı kullan. Secret veya service_role anahtarını asla girme. Anahtar bu cihazda saklanır.</p>
+<label class="field">Publishable key<input id="publicKey" type="text" autocomplete="off" placeholder="sb_publishable_..."></label>
+<button class="btn secondary" type="button" id="saveConnection">Bağlantıyı kaydet</button>
+<div class="status" id="connectionStatus" role="status"></div>
+</div>
+<div class="panel">
+<h2>Üye girişi</h2>
+<p class="mini">Önceden oluşturduğun hesabınla giriş yap. Yeni üyelikler onay bekler.</p>
+<form id="loginForm">
+<label class="field">E-posta<input id="loginEmail" type="email" autocomplete="email" required></label>
+<label class="field">Şifre<input id="loginPassword" type="password" autocomplete="current-password" required></label>
+<button class="btn" type="submit">Giriş yap</button>
+</form>
+<div id="loginStatus" class="status" role="status"></div>
+<div id="sessionPanel" class="hidden" style="margin-top:15px">
+<div id="accountStatus" class="msg"></div>
+<button type="button" id="logoutButton" class="btn secondary">Çıkış yap</button>
+</div>
+</div>
+
+<div class="panel"><div class="secthead"><div><h2>Üyelik Başvurusu</h2><p class="mini">Kuralları incele ve e-posta ile üyelik başvurusu oluştur.</p></div><span class="count">18+</span></div>
+<form id="joinForm" novalidate><div class="input-grid"><label class="field">Kullanıcı adı<input id="username" type="text" minlength="3" maxlength="30" placeholder="Örn. Yolcu123" autocomplete="off" required></label><label class="field">E-posta<input id="email" type="email" placeholder="eposta@ornek.com" autocomplete="off" required></label></div><label class="field">Doğum tarihi<input id="birthdate" type="date" required><span class="hint">18 yaş sınırı burada örnek olarak kontrol edilir. Gerçek uygulamada ayrıca uygun yaş doğrulaması tasarlanmalıdır.</span></label>
+<label class="field">Şifre (en az 8 karakter)<input id="signupPassword" type="password" minlength="8" autocomplete="new-password" placeholder="Güçlü bir şifre" required></label><div class="split" style="margin:20px 0 12px"><h3 style="margin:0">Üyelik ve Topluluk Yönetmeliği</h3><span class="count">16 madde</span></div><p class="mini">Aşağıdaki kurallar başvurunun parçasıdır. Başlıklara dokunarak maddeleri oku.</p><div class="legaltools"><button type="button" class="btn secondary inline" id="expandAll">Tümünü aç</button><button type="button" class="btn secondary inline" id="collapseAll">Tümünü kapat</button></div>
 <div id="allRules" style="margin-top:14px"><details class="article" open><summary><span class="article-no">01</span><span>MADDE 1 – Amaç ve Kapsam</span><span class="chev" aria-hidden="true">⌄</span></summary><div class="article-body"><p class="law-line">Bu yönetmelik, YOLCU TALK telsiz haberleşme platformunda güvenli, saygılı, düzenli ve adil bir iletişim ortamı oluşturmak amacıyla hazırlanmıştır.</p><p class="law-line">Yönetmelik; üyeleri, kanal sahiplerini, moderatörleri, yöneticileri ve platformda faaliyet gösteren diğer tüm kullanıcıları kapsar.</p><p class="law-line">Platforma üye olan kişiler, yürürlükteki kullanım şartlarına uymakla yükümlüdür.</p></div></details>
 <details class="article" ><summary><span class="article-no">02</span><span>MADDE 2 – Üyelik Şartları</span><span class="chev" aria-hidden="true">⌄</span></summary><div class="article-body"><p class="law-line">1. Platforma üyelik için en az 18 yaşında olmak gereklidir.</p><p class="law-line">2. Her kullanıcı kendisine ait, doğru ve güncel kayıt bilgileriyle hesap oluşturmalıdır.</p><p class="law-line">3. Başkasının kimliğine bürünmek veya başka bir kişiyi taklit etmek yasaktır.</p><p class="law-line">4. Yönetimin onayı olmadan yaptırımları aşmak amacıyla birden fazla hesap oluşturulamaz.</p><p class="law-line">5. Üyelik hesabının güvenliği kullanıcının sorumluluğundadır.</p><p class="law-line">6. Hesap devri, hesap satışı ve izinsiz hesap paylaşımı yasaktır.</p><p class="law-line">7. Üyeler, kayıt bilgilerindeki önemli değişiklikleri güncellemekle yükümlüdür.</p><p class="law-line">8. Üyelik ücretsiz veya ücretli olarak sunulabilir. Ücretli hizmetlerin koşulları ayrıca açıklanır.</p></div></details>
 <details class="article" ><summary><span class="article-no">03</span><span>MADDE 3 – Genel Saygı ve Davranış Kuralları</span><span class="chev" aria-hidden="true">⌄</span></summary><div class="article-body"><p class="law-line">1. Üyeler birbirlerine karşı saygılı ve hoşgörülü davranmalıdır.</p><p class="law-line">2. Küfür, hakaret, tehdit, aşağılama, taciz ve sistematik zorbalık yasaktır.</p><p class="law-line">3. Irk, milliyet, din, mezhep, cinsiyet, engellilik veya diğer korunan özelliklere yönelik nefret söylemi ve ayrımcılık yasaktır.</p><p class="law-line">4. Kişisel anlaşmazlıkların kanalları sürekli meşgul edecek tartışmalara dönüşmesine izin verilmez.</p><p class="law-line">5. Başkalarını hedef gösterme, küçük düşürme veya topluca tacize yönlendirme yasaktır.</p><p class="law-line">6. Farklı düşünceler ve görüşler, diğer kuralları ihlal etmediği sürece ifade edilebilir.</p><p class="law-line">7. Hiçbir kullanıcı yalnızca yöneticiyi eleştirdiği veya farklı görüş bildirdiği için cezalandırılamaz.</p></div></details>
@@ -40,13 +62,14 @@ button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus
 <details class="article" ><summary><span class="article-no">15</span><span>MADDE 15 – Yönetmelik Değişiklikleri</span><span class="chev" aria-hidden="true">⌄</span></summary><div class="article-body"><p class="law-line">1. Platform yönetimi, hizmetin ihtiyaçlarına ve mevzuata uygun olarak yönetmeliği güncelleyebilir.</p><p class="law-line">2. Önemli değişiklikler kullanıcılara uygun yöntemlerle duyurulur.</p><p class="law-line">3. Değişikliklerin yürürlük tarihi açıkça belirtilir.</p><p class="law-line">4. Mevzuat gereği ayrıca onay alınması gereken değişikliklerde gerekli onay mekanizması uygulanır.</p><p class="law-line">5. Önceki yönetmelik sürümleri uygun şekilde arşivlenir.</p></div></details>
 <details class="article" ><summary><span class="article-no">16</span><span>MADDE 16 – Yürürlük ve Uygulama</span><span class="chev" aria-hidden="true">⌄</span></summary><div class="article-body"><p class="law-line">Bu yönetmelik [Tarih] tarihinde yürürlüğe girer.</p><p class="law-line">Yönetmelik hükümleri, platform işletmecisi ve yetkilendirilmiş yönetim ekibi tarafından, yürürlükteki mevzuata uygun biçimde uygulanır.</p><p class="law-line">Yönetmelikte bulunmayan konularda ilgili hukuk kuralları ve ayrıca yayımlanmış platform politikaları geçerlidir.</p></div></details></div>
 <label class="agree"><input type="checkbox" id="adult" required><span><strong>18 yaşını doldurdum.</strong> Platformun yalnızca yetişkinlere açık olduğunu kabul ediyorum.</span></label><label class="agree"><input type="checkbox" id="terms" required><span><strong>Yukarıdaki 16 maddelik Üyelik ve Topluluk Yönetmeliği'ni okudum ve kabul ediyorum.</strong></span></label>
-<div class="msg">Gerçek yayın öncesinde işletmeci bilgileri, yürürlük tarihi, <strong>ayrı gizlilik/aydınlatma metni</strong>, veri silme ve şikâyet yolları tamamlanmalıdır. Bu demo hukuki onay veya gerçek üyelik oluşturmaz.</div>
-<button type="submit" class="btn">Başvuruyu test et →</button><div id="formMessage" class="status" role="status" aria-live="polite"></div></form></div>
+<div class="msg">Gerçek yayın öncesinde işletmeci bilgileri, yürürlük tarihi, <strong>ayrı gizlilik/aydınlatma metni</strong>, veri silme ve şikâyet yolları tamamlanmalıdır. Bu test, hukuken yeterli yaş doğrulaması veya otomatik hesap onayı sağlamaz.</div>
+<button type="submit" class="btn">E-posta ile üyelik başvurusu →</button><div id="formMessage" class="status" role="status" aria-live="polite"></div></form></div>
 </section>
 <section id="rooms" class="view hidden"><div class="panel"><div class="secthead"><div><h2>Canlı Sesli Odalar</h2><p class="mini">Odalar örnek amaçlıdır; gerçek konuşma bağlantısı yoktur.</p></div><span class="count">DEMO</span></div><div class="rooms" id="roomsList"></div><div id="roomDetail" class="room-detail hidden"><div class="split"><strong id="selectedRoom"></strong><button type="button" class="btn secondary inline" id="leaveRoom">Ayrıl</button></div><p style="margin:12px 0">Bu odada henüz canlı ses bağlantısı yok. Mikrofon butonu yalnızca arayüzü simüle eder.</p><button class="btn" id="micButton" type="button">🎤 Mikrofonu aç (demo)</button><div id="micStatus" class="status" role="status">Mikrofon kapalı · gerçek ses aktarılmıyor</div></div></div></section>
-<section id="admin" class="view hidden"><div class="panel"><div class="secthead"><div><h2>Baş Yönetici Paneli</h2><p class="mini">Yalnızca görünüm ve izin mantığı demosu.</p></div><span class="count">ÖNİZLEME</span></div><div class="msg">Bu bölüm <strong>gerçek bir yönetici oturumu değildir.</strong> Anahtarlar yalnızca bu tarayıcıda görüntüyü değiştirir; kullanıcı haklarını veya sunucu ayarlarını değiştirmez.</div><div class="admin-row"><div><strong>Özel yazışma sistemini aç</strong><p>Varsayılan: kapalı. Genel yazılı sohbet odası yok.</p></div><input class="switch" type="checkbox" id="messagesEnabled" aria-label="Özel yazışmaları aç"></div><div class="admin-row"><div><strong>Örnek yöneticiye yazma izni</strong><p>Üyelere özel mesaj yazabilmesi için senin onayın gerekir.</p></div><input class="switch" type="checkbox" id="adminCanWrite" aria-label="Örnek yöneticiye yazma izni"></div><div class="admin-row"><div><strong>Örnek üyeye yazma izni</strong><p>Üyeler varsayılan olarak yazamaz ve yanıtlayamaz.</p></div><input class="switch" type="checkbox" id="memberCanWrite" aria-label="Örnek üyeye yazma izni"></div><div class="msg" id="rightsStatus" role="status"></div><h3>Başlangıçtaki rol sistemi</h3><div class="role"><strong>Baş Yönetici</strong><span>Yazışma izni verir · kalıcı yasak</span></div><div class="role"><strong>Yönetici</strong><span>Konuşur · dinler · izinle yazar</span></div><div class="role"><strong>Üye (18+)</strong><span>Konuşur · dinler · izinsiz yazamaz</span></div><div class="role"><strong>Askıya alınmış</strong><span>Erişim kısıtlı veya engelli</span></div><p class="mini" style="margin-top:16px">Gerçek uygulamada bütün roller, uyarılar, yetkiler ve yasaklar sunucu tarafında denetlenmelidir.</p></div></section>
-<div class="foot">YOLCU TALK · Mobil Arayüz Prototipi v2 · Kayıt ve ses aktarımı bulunmaz · Yönetmelik yürürlük tarihi [Tarih] olarak beklemede<div class="foot-signature" style="margin-top:8px;font-weight:700;letter-spacing:.03em">@istiklal</div></div>
+<section id="admin" class="view hidden"><div class="panel"><div class="secthead"><div><h2>Baş Yönetici Paneli</h2><p class="mini">Yalnızca görünüm ve izin mantığı demosu.</p></div><span class="count">ÖNİZLEME</span></div><div class="msg">Bu bölüm yalnızca yönetim tasarımının önizlemesidir. Gerçek yetki değiştirme işlemleri henüz devre dışıdır.</div><div class="admin-row"><div><strong>Özel yazışma sistemini aç</strong><p>Varsayılan: kapalı. Genel yazılı sohbet odası yok.</p></div><input class="switch" type="checkbox" disabled id="messagesEnabled" aria-label="Özel yazışmaları aç"></div><div class="admin-row"><div><strong>Örnek yöneticiye yazma izni</strong><p>Üyelere özel mesaj yazabilmesi için senin onayın gerekir.</p></div><input class="switch" type="checkbox" disabled id="adminCanWrite" aria-label="Örnek yöneticiye yazma izni"></div><div class="admin-row"><div><strong>Örnek üyeye yazma izni</strong><p>Üyeler varsayılan olarak yazamaz ve yanıtlayamaz.</p></div><input class="switch" type="checkbox" disabled id="memberCanWrite" aria-label="Örnek üyeye yazma izni"></div><div class="msg" id="rightsStatus" role="status"></div><h3>Başlangıçtaki rol sistemi</h3><div class="role"><strong>Baş Yönetici</strong><span>Yazışma izni verir · kalıcı yasak</span></div><div class="role"><strong>Yönetici</strong><span>Konuşur · dinler · izinle yazar</span></div><div class="role"><strong>Üye (18+)</strong><span>Konuşur · dinler · izinsiz yazamaz</span></div><div class="role"><strong>Askıya alınmış</strong><span>Erişim kısıtlı veya engelli</span></div><p class="mini" style="margin-top:16px">Gerçek uygulamada bütün roller, uyarılar, yetkiler ve yasaklar sunucu tarafında denetlenmelidir.</p></div></section>
+<div class="foot">YOLCU TALK · Üyelik Testi v5 · Ses aktarımı bulunmaz · Yönetmelik yürürlük tarihi [Tarih] olarak beklemede<div class="foot-signature" style="margin-top:8px;font-weight:700;letter-spacing:.03em">@istiklal</div></div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
 'use strict';
@@ -55,7 +78,82 @@ tabs.forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.tab;vie
 const articles=[...document.querySelectorAll('.article')];document.getElementById('expandAll').addEventListener('click',()=>articles.forEach(d=>d.open=true));document.getElementById('collapseAll').addEventListener('click',()=>articles.forEach(d=>d.open=false));
 const birth=document.getElementById('birthdate');const now=new Date();birth.max=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
 function isAdult(iso){const a=iso.split('-').map(Number);if(a.length!==3||!a[0]||!a[1]||!a[2])return false;let age=now.getFullYear()-a[0];if(now.getMonth()+1<a[1]||(now.getMonth()+1===a[1]&&now.getDate()<a[2]))age--;return age>=18&&age<125;}
-document.getElementById('joinForm').addEventListener('submit',(e)=>{e.preventDefault();const result=document.getElementById('formMessage');result.classList.remove('ok');const name=document.getElementById('username');const email=document.getElementById('email');const adult=document.getElementById('adult');const terms=document.getElementById('terms');if(name.value.trim().length<3){result.textContent='En az 3 karakterli örnek kullanıcı adı gir.';name.focus();return;}if(!email.checkValidity()){result.textContent='Geçerli biçimde örnek e-posta adresi gir.';email.focus();return;}if(!isAdult(birth.value)){result.textContent='YOLCU TALK üyeliği yalnızca 18 yaş ve üzerindekilere açıktır.';birth.focus();return;}if(!adult.checked||!terms.checked){result.textContent='Devam etmek için 18+ beyanını ve yönetmelik kabulünü işaretlemelisin.';return;}result.textContent='✓ Test başarılı. 18+ koşulu ve 16 maddelik yönetmelik kabul edildi (yalnızca demo; başvuru gönderilmedi).';result.classList.add('ok')});
+const SUPABASE_URL='https://gbeitscwcbojvlcamhiu.supabase.co';
+let client=null;
+const keyInput=document.getElementById('publicKey');
+const savedKey=localStorage.getItem('yolcu_publishable_key')||'';
+keyInput.value=savedKey;
+const connStatus=document.getElementById('connectionStatus');
+function initClient(key){
+ if(!/^sb_publishable_[A-Za-z0-9_-]+$/.test(key)){connStatus.textContent='Yalnızca sb_publishable_ ile başlayan anahtarı gir.';return false;}
+ if(!window.supabase?.createClient){connStatus.textContent='Supabase kütüphanesi yüklenemedi. İnternet bağlantısını kontrol et.';return false;}
+ client=window.supabase.createClient(SUPABASE_URL,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+ connStatus.textContent='Bağlantı hazır. Hesap durumunu giriş yaptıktan sonra kontrol edebilirsin.';
+ updateSession();return true;
+}
+document.getElementById('saveConnection').addEventListener('click',()=>{
+ const key=keyInput.value.trim();
+ if(initClient(key))localStorage.setItem('yolcu_publishable_key',key);
+});
+if(savedKey)initClient(savedKey);
+async function updateSession(){
+ if(!client)return;
+ const {data:{user},error}=await client.auth.getUser();
+ const sessionPanel=document.getElementById('sessionPanel');
+ if(error||!user){sessionPanel.classList.add('hidden');return;}
+ sessionPanel.classList.remove('hidden');
+ const [profile,roles]=await Promise.all([
+  client.from('profiles').select('account_status').eq('id',user.id).maybeSingle(),
+  client.from('user_roles').select('role,can_send_private_messages').eq('user_id',user.id).maybeSingle()
+ ]);
+ const state=profile.data?.account_status||'pending';
+ const role=roles.data?.role||'member';
+ document.getElementById('accountStatus').textContent=
+   'Giriş yapıldı: '+user.email+' | Hesap durumu: '+state+' | Rol: '+role+
+   '. Sesli odalara gerçek erişim henüz etkin değildir.';
+}
+document.getElementById('joinForm').addEventListener('submit',async(e)=>{
+ e.preventDefault();
+ const result=document.getElementById('formMessage');
+ result.classList.remove('ok');
+ const name=document.getElementById('username');
+ const email=document.getElementById('email');
+ const pass=document.getElementById('signupPassword');
+ const adult=document.getElementById('adult');
+ const terms=document.getElementById('terms');
+ if(!client){result.textContent='Önce Supabase Publishable Key bağlantısını kaydet.';return;}
+ if(name.value.trim().length<3){result.textContent='En az 3 karakterli kullanıcı adı gir.';return;}
+ if(!email.checkValidity()){result.textContent='Geçerli e-posta adresi gir.';return;}
+ if(pass.value.length<8){result.textContent='Şifre en az 8 karakter olmalı.';return;}
+ if(!isAdult(birth.value)||!adult.checked||!terms.checked){result.textContent='18+ beyanı ve yönetmelik kabulü gerekli.';return;}
+ result.textContent='Başvuru gönderiliyor...';
+ const {error}=await client.auth.signUp({
+   email:email.value.trim(),password:pass.value,
+   options:{emailRedirectTo:'https://istiklal4203.github.io/YOLCU-TALK/',
+     data:{username:name.value.trim(),adult_declared:true,rules_version:'taslak-2026'}}
+ });
+ if(error){result.textContent='Kayıt tamamlanamadı: '+error.message;return;}
+ result.classList.add('ok');
+ result.textContent='Başvuru alındı. E-posta doğrulaması gerekiyorsa gelen kutunu kontrol et. Hesap onaylanmadan erişim açılmaz.';
+});
+document.getElementById('loginForm').addEventListener('submit',async(e)=>{
+ e.preventDefault();
+ const status=document.getElementById('loginStatus');
+ if(!client){status.textContent='Önce Supabase bağlantısını kaydet.';return;}
+ status.textContent='Giriş yapılıyor...';
+ const {error}=await client.auth.signInWithPassword({
+  email:document.getElementById('loginEmail').value.trim(),
+  password:document.getElementById('loginPassword').value
+ });
+ if(error){status.textContent='Giriş başarısız: '+error.message;return;}
+ status.textContent='Giriş başarılı.';await updateSession();
+});
+document.getElementById('logoutButton').addEventListener('click',async()=>{
+ if(!client)return;
+ await client.auth.signOut();
+ document.getElementById('loginStatus').textContent='Çıkış yapıldı.';
+ await updateSession();
+});
 const rooms=['🇹🇷 Türkiye Sohbet','🇩🇪 Avrupa Türkleri','🌍 Dünya Sohbet','☕ Serbest Muhabbet'];const list=document.getElementById('roomsList');rooms.forEach((n,i)=>{const b=document.createElement('button');b.className='room';b.type='button';b.innerHTML='<div class="room-top"><div class="room-title"></div><span class="live">DEMO</span></div><div class="room-sub">🎙️ Her yetkili üye konuşabilir ve dinleyebilir · Odayı aç →</div>';b.querySelector('.room-title').textContent=n;b.addEventListener('click',()=>{document.getElementById('selectedRoom').textContent=n;document.getElementById('roomDetail').classList.remove('hidden');activeMic=false;drawMic();document.getElementById('roomDetail').scrollIntoView({behavior:'smooth',block:'nearest'})});list.appendChild(b)});
 let activeMic=false;const micButton=document.getElementById('micButton');function drawMic(){micButton.textContent=activeMic?'🔇 Mikrofonu kapat (demo)':'🎤 Mikrofonu aç (demo)';document.getElementById('micStatus').textContent=activeMic?'Mikrofon simülasyonu açık · gerçek ses aktarılmıyor':'Mikrofon kapalı · gerçek ses aktarılmıyor'}micButton.addEventListener('click',()=>{activeMic=!activeMic;drawMic()});document.getElementById('leaveRoom').addEventListener('click',()=>{activeMic=false;drawMic();document.getElementById('roomDetail').classList.add('hidden')});
 const global=document.getElementById('messagesEnabled'),admin=document.getElementById('adminCanWrite'),member=document.getElementById('memberCanWrite');function refresh(){admin.disabled=!global.checked;member.disabled=!global.checked;if(!global.checked){admin.checked=false;member.checked=false;}document.getElementById('rightsStatus').textContent=global.checked?`Demo: Özel mesaj açık. Yönetici yazma izni: ${admin.checked?'verildi':'yok'}. Üye yazma izni: ${member.checked?'verildi':'yok'}. Bu değişiklikler kaydedilmez.`:'Yazışma kapalı: Tüm üyeler sesli iletişimde, ancak yazılı mesaj gönderimi devre dışı.';}[global,admin,member].forEach(x=>x.addEventListener('change',refresh));refresh();
